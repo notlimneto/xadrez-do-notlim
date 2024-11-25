@@ -4,13 +4,13 @@ import lombok.Getter;
 import xadrezdonotlim.domain.Board;
 
 @Getter
-public class Pawn implements PieceInterface{
+public class Knight implements PieceInterface {
     private final char color;
     private final char pieceCode;
 
-    public Pawn(char color) {
+    public Knight(char color) {
         this.color = color;
-        this.pieceCode = 'P';
+        this.pieceCode = 'C';
     }
 
     public boolean isMovePossible(Board board, String position, String move) {
