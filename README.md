@@ -13,8 +13,8 @@ Este projeto é uma implementação de um jogo de xadrez em terminal, desenvolvi
 1. **Clone o repositório do projeto:**
 
    ```bash
-   git clone <URL_DO_REPOSITORIO>
-   cd <NOME_DO_DIRETORIO>
+   git clone https://github.com/notlimneto/xadrez-do-notlim.git
+   cd xadrez-do-notlim
    ```
 
 2. **Compile o projeto:**
