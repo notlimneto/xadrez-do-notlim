@@ -10,15 +10,15 @@ public class BoardView {
     public static final String R = "\u001B[0m";
     public static final String BLACK_BACKGROUND_WHITE_TEXT = "\u001B[40m\u001B[97m";
     public static final String WHITE_BACKGROUND_BLACK_TEXT = "\u001B[107m\u001B[30m";
-    private static final String W = WHITE_BACKGROUND_BLACK_TEXT + "         " + R;
+    private static final String W = WHITE_BACKGROUND_BLACK_TEXT + "       " + R;
     private static final String w = WHITE_BACKGROUND_BLACK_TEXT + " " + R;
-    private static final String B = BLACK_BACKGROUND_WHITE_TEXT + "         " + R;
+    private static final String B = BLACK_BACKGROUND_WHITE_TEXT + "       " + R;
     private static final String b = BLACK_BACKGROUND_WHITE_TEXT + " " + R;
 
 
     private static final String[] terminalBoard = new String[25];
 
-    //Com o maior respeito do mundo a quem tá pegou meu código pra ver do github mas aqui foi pro caralho tudo repara n
+    //Com o maior respeito do mundo a quem pegou meu código pra ver do github mas aqui foi pro caralho tudo repara n
     public static void updateBoard(Board board) {
         try{
             terminalBoard[0] = b + W + B + W + B + W + B + W + B;
@@ -45,14 +45,14 @@ public class BoardView {
             terminalBoard[21] = w + B + W + B + W + B + W + B + W;
             terminalBoard[22] = buildViewLineWithPieces(board, 1);
             terminalBoard[23] = WHITE_BACKGROUND_BLACK_TEXT + "1" + R + B + W + B + W + B + W + B + W;
-            terminalBoard[24] = b + WHITE_BACKGROUND_BLACK_TEXT + "a        " + R +
-                    BLACK_BACKGROUND_WHITE_TEXT + "b        " + R +
-                    WHITE_BACKGROUND_BLACK_TEXT + "c        " + R +
-                    BLACK_BACKGROUND_WHITE_TEXT + "d        " + R +
-                    WHITE_BACKGROUND_BLACK_TEXT + "e        " + R +
-                    BLACK_BACKGROUND_WHITE_TEXT + "f        " + R +
-                    WHITE_BACKGROUND_BLACK_TEXT + "g        " + R +
-                    BLACK_BACKGROUND_WHITE_TEXT + "h        " + R;
+            terminalBoard[24] = b + WHITE_BACKGROUND_BLACK_TEXT + "a      " + R +
+                    BLACK_BACKGROUND_WHITE_TEXT + "b      " + R +
+                    WHITE_BACKGROUND_BLACK_TEXT + "c      " + R +
+                    BLACK_BACKGROUND_WHITE_TEXT + "d      " + R +
+                    WHITE_BACKGROUND_BLACK_TEXT + "e      " + R +
+                    BLACK_BACKGROUND_WHITE_TEXT + "f      " + R +
+                    WHITE_BACKGROUND_BLACK_TEXT + "g      " + R +
+                    BLACK_BACKGROUND_WHITE_TEXT + "h      " + R;
 
             printBoard();
         } catch (Exception e) {
@@ -62,24 +62,24 @@ public class BoardView {
 
     private static String buildViewLineWithPieces(Board board, int row) {
         if(row % 2 == 0) {
-            return String.format(b + WHITE_BACKGROUND_BLACK_TEXT + "   %s" + R + WHITE_BACKGROUND_BLACK_TEXT + "   " + R +
-                            BLACK_BACKGROUND_WHITE_TEXT + "   %s" + R + BLACK_BACKGROUND_WHITE_TEXT + "   " + R +
-                            WHITE_BACKGROUND_BLACK_TEXT + "   %s" + R + WHITE_BACKGROUND_BLACK_TEXT + "   " + R +
-                            BLACK_BACKGROUND_WHITE_TEXT + "   %s" + R + BLACK_BACKGROUND_WHITE_TEXT + "   " + R +
-                            WHITE_BACKGROUND_BLACK_TEXT + "   %s" + R + WHITE_BACKGROUND_BLACK_TEXT + "   " + R +
-                            BLACK_BACKGROUND_WHITE_TEXT + "   %s" + R + BLACK_BACKGROUND_WHITE_TEXT + "   " + R +
-                            WHITE_BACKGROUND_BLACK_TEXT + "   %s" + R + WHITE_BACKGROUND_BLACK_TEXT + "   " + R +
-                            BLACK_BACKGROUND_WHITE_TEXT + "   %s" + R + BLACK_BACKGROUND_WHITE_TEXT + "   " + R,
+            return String.format(b + WHITE_BACKGROUND_BLACK_TEXT + "  %s" + R + WHITE_BACKGROUND_BLACK_TEXT + "  " + R +
+                            BLACK_BACKGROUND_WHITE_TEXT + "  %s" + R + BLACK_BACKGROUND_WHITE_TEXT + "  " + R +
+                            WHITE_BACKGROUND_BLACK_TEXT + "  %s" + R + WHITE_BACKGROUND_BLACK_TEXT + "  " + R +
+                            BLACK_BACKGROUND_WHITE_TEXT + "  %s" + R + BLACK_BACKGROUND_WHITE_TEXT + "  " + R +
+                            WHITE_BACKGROUND_BLACK_TEXT + "  %s" + R + WHITE_BACKGROUND_BLACK_TEXT + "  " + R +
+                            BLACK_BACKGROUND_WHITE_TEXT + "  %s" + R + BLACK_BACKGROUND_WHITE_TEXT + "  " + R +
+                            WHITE_BACKGROUND_BLACK_TEXT + "  %s" + R + WHITE_BACKGROUND_BLACK_TEXT + "  " + R +
+                            BLACK_BACKGROUND_WHITE_TEXT + "  %s" + R + BLACK_BACKGROUND_WHITE_TEXT + "  " + R,
                     colorPieces(BoardUtil.getRowPieces(row, board)));
         } else {
-            return String.format(w + BLACK_BACKGROUND_WHITE_TEXT + "   %s" + R + BLACK_BACKGROUND_WHITE_TEXT + "   " + R +
-                            WHITE_BACKGROUND_BLACK_TEXT + "   %s" + R + WHITE_BACKGROUND_BLACK_TEXT + "   " + R +
-                            BLACK_BACKGROUND_WHITE_TEXT + "   %s" + R + BLACK_BACKGROUND_WHITE_TEXT + "   " + R +
-                            WHITE_BACKGROUND_BLACK_TEXT + "   %s" + R + WHITE_BACKGROUND_BLACK_TEXT + "   " + R +
-                            BLACK_BACKGROUND_WHITE_TEXT + "   %s" + R + BLACK_BACKGROUND_WHITE_TEXT + "   " + R +
-                            WHITE_BACKGROUND_BLACK_TEXT + "   %s" + R + WHITE_BACKGROUND_BLACK_TEXT + "   " + R +
-                            BLACK_BACKGROUND_WHITE_TEXT + "   %s" + R + BLACK_BACKGROUND_WHITE_TEXT + "   " + R +
-                            WHITE_BACKGROUND_BLACK_TEXT + "   %s" + R + WHITE_BACKGROUND_BLACK_TEXT + "   " + R,
+            return String.format(w + BLACK_BACKGROUND_WHITE_TEXT + "  %s" + R + BLACK_BACKGROUND_WHITE_TEXT + "  " + R +
+                            WHITE_BACKGROUND_BLACK_TEXT + "  %s" + R + WHITE_BACKGROUND_BLACK_TEXT + "  " + R +
+                            BLACK_BACKGROUND_WHITE_TEXT + "  %s" + R + BLACK_BACKGROUND_WHITE_TEXT + "  " + R +
+                            WHITE_BACKGROUND_BLACK_TEXT + "  %s" + R + WHITE_BACKGROUND_BLACK_TEXT + "  " + R +
+                            BLACK_BACKGROUND_WHITE_TEXT + "  %s" + R + BLACK_BACKGROUND_WHITE_TEXT + "  " + R +
+                            WHITE_BACKGROUND_BLACK_TEXT + "  %s" + R + WHITE_BACKGROUND_BLACK_TEXT + "  " + R +
+                            BLACK_BACKGROUND_WHITE_TEXT + "  %s" + R + BLACK_BACKGROUND_WHITE_TEXT + "  " + R +
+                            WHITE_BACKGROUND_BLACK_TEXT + "  %s" + R + WHITE_BACKGROUND_BLACK_TEXT + "  " + R,
                     colorPieces(BoardUtil.getRowPieces(row, board)));
         }
     }

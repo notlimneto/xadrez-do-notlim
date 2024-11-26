@@ -3,6 +3,8 @@ package xadrezdonotlim.domain.pieces;
 import lombok.Getter;
 import xadrezdonotlim.domain.Board;
 
+import java.util.List;
+
 @Getter
 public class Bishop implements PieceInterface {
     private final char color;
@@ -13,11 +15,15 @@ public class Bishop implements PieceInterface {
         this.pieceCode = 'B';
     }
 
-    public boolean isMovePossible(Board board, String position, String move) {
+    public boolean isMovePossible(Board board, String currentPosition, String nextPosition) {
         return false;
     }
 
-    public String[] getPossibleMoves(String position, Board board) {
+    public List<String> getPossibleMoves(String currentPosition, Board board) {
         return null;
+    }
+
+    public void makePieceAdjustmentsOnMove(){
+
     }
 }

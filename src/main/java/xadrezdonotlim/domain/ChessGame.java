@@ -1,5 +1,6 @@
 package xadrezdonotlim.domain;
 
+import xadrezdonotlim.domain.pieces.PieceInterface;
 import xadrezdonotlim.enumeration.PositionIdentifiersEnum;
 import xadrezdonotlim.view.BoardView;
 
@@ -33,34 +34,47 @@ public class ChessGame {
     }
 
     private void whiteMove(){
-        System.out.println(BoardView.WHITE_BACKGROUND_BLACK_TEXT + "Brancas" + BoardView.R + " fazem lance:");
+        System.out.println("\n" + BoardView.WHITE_BACKGROUND_BLACK_TEXT + "Brancas" + BoardView.R + " fazem lance:");
         String move = scanner.nextLine();
         while (!isValidMove(move)) {
             System.out.println("Movimento inválido, tente novamente: ");
             move = scanner.nextLine();
         }
+        makeMove(move);
+
     }
 
     private void blackMove(){
-        System.out.println(BoardView.BLACK_BACKGROUND_WHITE_TEXT + "Pretas" + BoardView.R + " fazem lance:");
+        System.out.println("\n" + BoardView.BLACK_BACKGROUND_WHITE_TEXT + "Pretas" + BoardView.R + " fazem lance:");
         String move = scanner.nextLine();
         while (!isValidMove(move)) {
             System.out.println("Movimento inválido, tente novamente: ");
             move = scanner.nextLine();
         }
+        makeMove(move);
+    }
+
+    private void makeMove(String move) {
+        String currentPosition = move.substring(0, 2);
+        String nextPosition = move.substring(2);
+
+        board.getBoard().get(currentPosition).makeMove(board, currentPosition, nextPosition);
     }
 
     private boolean isValidMove(String move){
         if (move.length() != 4) return false;
 
         String currentPosition = move.substring(0, 2);
-        String desiredPosition = move.substring(2);
+        String nextPosition = move.substring(2);
 
         if (board.getBoard().get(currentPosition) == null) {
             return false;
         } else {
-            return (PositionIdentifiersEnum.COLUMNS.getValues().contains(desiredPosition.substring(0,1)) &&
-                    PositionIdentifiersEnum.ROWS.getValues().contains(desiredPosition.substring(1)));
+            PieceInterface pieceOnCurrentPosition = board.getBoard().get(currentPosition);
+            boolean validMoveSyntax = (PositionIdentifiersEnum.COLUMNS.getValues().contains(nextPosition.substring(0,1)) &&
+                    PositionIdentifiersEnum.ROWS.getValues().contains(nextPosition.substring(1)));
+            if (!validMoveSyntax) return false;
+            else return pieceOnCurrentPosition.isMovePossible(board, currentPosition, nextPosition);
         }
     }
 
