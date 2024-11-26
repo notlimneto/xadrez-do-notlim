@@ -1,6 +1,7 @@
 package xadrezdonotlim.domain;
 
 import xadrezdonotlim.domain.pieces.PieceInterface;
+import xadrezdonotlim.enumeration.ColorEnum;
 import xadrezdonotlim.enumeration.PositionIdentifiersEnum;
 import xadrezdonotlim.view.BoardView;
 
@@ -36,7 +37,7 @@ public class ChessGame {
     private void whiteMove(){
         System.out.println("\n" + BoardView.WHITE_BACKGROUND_BLACK_TEXT + "Brancas" + BoardView.R + " fazem lance:");
         String move = scanner.nextLine();
-        while (!isValidMove(move)) {
+        while (!isValidMove(move, ColorEnum.WHITE.getCode())) {
             System.out.println("Movimento inválido, tente novamente: ");
             move = scanner.nextLine();
         }
@@ -47,7 +48,7 @@ public class ChessGame {
     private void blackMove(){
         System.out.println("\n" + BoardView.BLACK_BACKGROUND_WHITE_TEXT + "Pretas" + BoardView.R + " fazem lance:");
         String move = scanner.nextLine();
-        while (!isValidMove(move)) {
+        while (!isValidMove(move, ColorEnum.BLACK.getCode())) {
             System.out.println("Movimento inválido, tente novamente: ");
             move = scanner.nextLine();
         }
@@ -61,13 +62,13 @@ public class ChessGame {
         board.getBoard().get(currentPosition).makeMove(board, currentPosition, nextPosition);
     }
 
-    private boolean isValidMove(String move){
+    private boolean isValidMove(String move, char color){
         if (move.length() != 4) return false;
 
         String currentPosition = move.substring(0, 2);
         String nextPosition = move.substring(2);
 
-        if (board.getBoard().get(currentPosition) == null) {
+        if (board.getBoard().get(currentPosition) == null || board.getBoard().get(currentPosition).getColor() != color) {
             return false;
         } else {
             PieceInterface pieceOnCurrentPosition = board.getBoard().get(currentPosition);
