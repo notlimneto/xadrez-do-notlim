@@ -18,9 +18,9 @@ public class RookValidation {
         Integer indexOfCurrentColumn = columns.indexOf(currentColumn);
         Integer indexOfNextColumn = columns.indexOf(nextColumn);
 
-        boolean isMoveDiagonal = !indexOfCurrentColumn.equals(indexOfNextColumn) && !currentRow.equals(nextRow);
+        boolean isMoveLinear = indexOfCurrentColumn.equals(indexOfNextColumn) || currentRow.equals(nextRow);
 
-        if(isMoveDiagonal) return false;
+        if(!isMoveLinear) return false;
 
         boolean hasSameColorPieceOnNextSquare = positionMap.get(nextPosition) != null && positionMap.get(nextPosition).getColor() == color;
 

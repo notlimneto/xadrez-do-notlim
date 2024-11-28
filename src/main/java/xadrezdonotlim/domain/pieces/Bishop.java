@@ -2,6 +2,7 @@ package xadrezdonotlim.domain.pieces;
 
 import lombok.Getter;
 import xadrezdonotlim.domain.Board;
+import xadrezdonotlim.validation.BishopValidation;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class Bishop implements PieceInterface {
     }
 
     public boolean isMovePossible(Board board, String currentPosition, String nextPosition) {
-        return false;
+        return BishopValidation.moveValidation(board, currentPosition, nextPosition, color);
     }
 
     public List<String> getPossibleMoves(String currentPosition, Board board) {
