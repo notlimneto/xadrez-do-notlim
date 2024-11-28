@@ -4,6 +4,7 @@ import xadrezdonotlim.domain.pieces.PieceInterface;
 import xadrezdonotlim.enumeration.ColorEnum;
 import xadrezdonotlim.enumeration.PositionIdentifiersEnum;
 import xadrezdonotlim.view.BoardView;
+import xadrezdonotlim.view.ChessView;
 
 import java.util.Scanner;
 
@@ -18,7 +19,7 @@ public class ChessGame {
     }
 
     private void runGame() {
-        limpaTerminal();
+        ChessView.cleanTerminal();
         board = new Board();
 
         int moves = 0;
@@ -29,7 +30,7 @@ public class ChessGame {
                 blackMove();
             }
             moves++;
-            limpaTerminal();
+            ChessView.cleanTerminal();
             BoardView.updateBoard(board);
         }
     }
@@ -76,17 +77,6 @@ public class ChessGame {
                     PositionIdentifiersEnum.ROWS.getValues().contains(nextPosition.substring(1)));
             if (!validMoveSyntax) return false;
             else return pieceOnCurrentPosition.isMovePossible(board, currentPosition, nextPosition);
-        }
-    }
-
-    private void limpaTerminal() {
-        try {
-            if (os.contains("Windows")) new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            else new ProcessBuilder("clear").inheritIO().start().waitFor();
-        }
-        catch (final Exception e)
-        {
-            System.out.println("Erro ao limpar terminal: " + e.getMessage());
         }
     }
 }
