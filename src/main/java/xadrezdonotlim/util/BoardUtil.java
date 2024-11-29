@@ -10,7 +10,7 @@ public class BoardUtil {
         PieceInterface[] rowPieces = new PieceInterface[8];
 
         for (int i = 0; i < 8; i++){
-            rowPieces[i] = board.getBoard().get(String.valueOf(columnsArray[i]) + row);
+            rowPieces[i] = board.getBoard().get(String.valueOf(columnsArray[i]) + row).getPiece();
         }
 
         return rowPieces;

@@ -1,8 +1,8 @@
 package xadrezdonotlim.validation;
 
 import xadrezdonotlim.domain.Board;
+import xadrezdonotlim.domain.Square;
 import xadrezdonotlim.domain.pieces.Pawn;
-import xadrezdonotlim.domain.pieces.PieceInterface;
 import xadrezdonotlim.enumeration.ColorEnum;
 import xadrezdonotlim.enumeration.PositionIdentifiersEnum;
 
@@ -34,8 +34,8 @@ public class PawnValidation {
                     nextRow, positionMap, indexCurrentColumn, indexNextColumn, hasMoved)) return false;
         }
 
-        if (positionMap.get(nextPosition) != null) {
-            if (positionMap.get(nextPosition).getColor() == color) {
+        if (positionMap.get(nextPosition).getPiece() != null) {
+            if (positionMap.get(nextPosition).getPiece().getColor() == color) {
                 return false;
             } else {
                 if(currentColumn.equals(nextColumn)) return false;
@@ -44,7 +44,7 @@ public class PawnValidation {
         } else if (indexCurrentColumn.compareTo(indexNextColumn)!=0) {
             if (!hasEnPassant) return false;
             else {
-                Pawn pieceOnCurrentPosition = (Pawn) positionMap.get(currentPosition);
+                Pawn pieceOnCurrentPosition = (Pawn) positionMap.get(currentPosition).getPiece();
                 return nextColumn.equals(pieceOnCurrentPosition.getEnPassantColumn());
             }
         } else {
@@ -53,7 +53,7 @@ public class PawnValidation {
     }
 
     public static boolean whiteMoveValidation(String currentColumn, Integer currentRow, String nextColumn,
-                                              Integer nextRow, HashMap<String, PieceInterface> positionMap,
+                                              Integer nextRow, HashMap<String, Square> positionMap,
                                               Integer indexCurrentColumn, Integer indexNextColumn,
                                               boolean hasMoved) {
 
@@ -63,7 +63,7 @@ public class PawnValidation {
 
         if (nextRow-currentRow==2 && hasMoved) return false;
 
-        if (nextRow-currentRow==2 && positionMap.get(currentColumn + (currentRow+1))!=null) return false;
+        if (nextRow-currentRow==2 && positionMap.get(currentColumn + (currentRow+1)).getPiece()!=null) return false;
 
         if (nextRow-currentRow>1 && indexCurrentColumn.compareTo(indexNextColumn)!=0) return false;
 
@@ -71,7 +71,7 @@ public class PawnValidation {
     }
 
     public static boolean blackMoveValidation(String currentColumn, Integer currentRow, String nextColumn,
-                                              Integer nextRow, HashMap<String, PieceInterface> positionMap,
+                                              Integer nextRow, HashMap<String, Square> positionMap,
                                               Integer indexCurrentColumn, Integer indexNextColumn,
                                               boolean hasMoved) {
 
@@ -81,7 +81,7 @@ public class PawnValidation {
 
         if (currentRow-nextRow==2 && hasMoved) return false;
 
-        if (currentRow-nextRow==2 && positionMap.get(currentColumn + (currentRow-1))!=null) return false;
+        if (currentRow-nextRow==2 && positionMap.get(currentColumn + (currentRow-1)).getPiece()!=null) return false;
 
         if (currentRow-nextRow>1 && indexCurrentColumn.compareTo(indexNextColumn)!=0) return false;
 

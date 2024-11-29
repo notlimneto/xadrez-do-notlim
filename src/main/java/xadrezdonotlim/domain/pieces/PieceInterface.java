@@ -14,10 +14,10 @@ public interface PieceInterface {
 
     default void makeMove(Board board, String currentPosition, String nextPosition) {
         var positionMap = board.getBoard();
-        PieceInterface pieceMoved = positionMap.get(currentPosition);
+        PieceInterface pieceMoved = positionMap.get(currentPosition).getPiece();
 
-        positionMap.put(currentPosition, null);
-        positionMap.put(nextPosition, pieceMoved);
+        positionMap.get(currentPosition).setPiece(null);
+        positionMap.get(nextPosition).setPiece(pieceMoved);
     }
 
     char getColor();

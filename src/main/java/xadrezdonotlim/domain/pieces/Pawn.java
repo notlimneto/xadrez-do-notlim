@@ -33,7 +33,7 @@ public class Pawn implements PieceInterface{
     @Override
     public void makeMove(Board board, String currentPosition, String nextPosition) {
         var positionMap = board.getBoard();
-        Pawn pieceMoved = (Pawn) positionMap.get(currentPosition);
+        Pawn pieceMoved = (Pawn) positionMap.get(currentPosition).getPiece();
 
         String columns = PositionIdentifiersEnum.COLUMNS.getValues();
 
@@ -46,14 +46,14 @@ public class Pawn implements PieceInterface{
         Integer indexOfCurrentColumn = columns.indexOf(currentColumn);
 
         if(isMoveEnPassant(board, currentPosition, nextPosition)) {
-            positionMap.put(currentPosition, null);
-            positionMap.put(nextPosition, pieceMoved);
-            positionMap.put(nextColumn + ((color == ColorEnum.WHITE.getCode()) ? nextRow - 1 : nextRow + 1), null);
+            positionMap.get(currentPosition).setPiece(null);
+            positionMap.get(nextPosition).setPiece(pieceMoved);
+            positionMap.get(nextColumn + ((color == ColorEnum.WHITE.getCode()) ? nextRow - 1 : nextRow + 1)).setPiece(null);
             pieceMoved.setHasEnPassant(false);
         } else {
             if(currentRow - nextRow > 1 || nextRow - currentRow > 1) {
-                var leftPiece = (Pawn) ((indexOfCurrentColumn - 1 >= 0) ? positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn - 1)) + nextRow) : null);
-                var rightPiece = (Pawn) ((indexOfCurrentColumn + 1 <= 7) ? positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn + 1)) + nextRow): null);
+                var leftPiece = (Pawn) ((indexOfCurrentColumn - 1 >= 0) ? positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn - 1)) + nextRow).getPiece() : null);
+                var rightPiece = (Pawn) ((indexOfCurrentColumn + 1 <= 7) ? positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn + 1)) + nextRow).getPiece(): null);
 
                 if (leftPiece != null) {
                     leftPiece.setHasEnPassant(true);
@@ -65,7 +65,7 @@ public class Pawn implements PieceInterface{
                 }
             }
 
-            positionMap.put(currentPosition, null);
+            positionMap.get(currentPosition).setPiece(null);
             if((color == ColorEnum.WHITE.getCode()) ? nextRow==8 : nextRow==1) {
                 Scanner scanner = new Scanner(System.in);
                 System.out.println("Para qual peça quer promover? T - Torre; C - Cavalo; B - Bispo; D - Dama");
@@ -78,12 +78,12 @@ public class Pawn implements PieceInterface{
                 }
 
                 switch (promotionPiece) {
-                    case "T":  positionMap.put(nextPosition, new Rook(color));
-                    case "C":  positionMap.put(nextPosition, new Knight(color));
-                    case "B":  positionMap.put(nextPosition, new Bishop(color));
-                    case "D":  positionMap.put(nextPosition, new Queen(color));
+                    case "T":  positionMap.get(nextPosition).setPiece(new Rook(color));
+                    case "C":  positionMap.get(nextPosition).setPiece(new Knight(color));
+                    case "B":  positionMap.get(nextPosition).setPiece(new Bishop(color));
+                    case "D":  positionMap.get(nextPosition).setPiece(new Queen(color));
                 }
-            } else positionMap.put(nextPosition, pieceMoved);
+            } else positionMap.get(nextPosition).setPiece(pieceMoved);
 
         }
     }
@@ -116,7 +116,7 @@ public class Pawn implements PieceInterface{
 
         if (!hasEnPassant) return false;
         else {
-            return board.getBoard().get(nextPosition) == null && indexCurrentColumn.compareTo(indexNextColumn) != 0;
+            return board.getBoard().get(nextPosition).getPiece() == null && indexCurrentColumn.compareTo(indexNextColumn) != 0;
         }
     }
 

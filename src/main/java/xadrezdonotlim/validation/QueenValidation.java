@@ -27,7 +27,7 @@ public class QueenValidation {
 
         if (!isMoveDiagonal && !isMoveLinear) return false;
 
-        boolean hasSameColorPieceOnNextSquare = positionMap.get(nextPosition) != null && positionMap.get(nextPosition).getColor() == color;
+        boolean hasSameColorPieceOnNextSquare = positionMap.get(nextPosition).getPiece() != null && positionMap.get(nextPosition).getPiece().getColor() == color;
 
         if (hasSameColorPieceOnNextSquare) return false;
 

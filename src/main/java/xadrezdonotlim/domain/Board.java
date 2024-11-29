@@ -1,5 +1,6 @@
 package xadrezdonotlim.domain;
 
+import lombok.Getter;
 import xadrezdonotlim.domain.pieces.*;
 import xadrezdonotlim.enumeration.ColorEnum;
 import xadrezdonotlim.enumeration.PositionIdentifiersEnum;
@@ -7,13 +8,12 @@ import xadrezdonotlim.view.BoardView;
 
 import java.util.HashMap;
 
+@Getter
 public class Board {
 
-    private static final HashMap<String, PieceInterface> board = new HashMap<>();
-    private HashMap<String, PieceInterface> previousBoard;
+    private final HashMap<String, Square> board = new HashMap<>();
 
     public Board() {
-        previousBoard = null;
         montaTabuleiro();
         BoardView.updateBoard(this);
     }
@@ -29,43 +29,43 @@ public class Board {
                     if (columns.charAt(column) == 'd') {
                         board.put(
                                 String.valueOf(columns.charAt(column)) + rows.charAt(row),
-                                new Queen(pieceColor)
+                                new Square(new Queen(pieceColor))
                         );
                     } else if (columns.charAt(column) == 'e') {
                         board.put(
                                 String.valueOf(columns.charAt(column)) + rows.charAt(row),
-                                new King(pieceColor)
+                                new Square(new King(pieceColor))
                         );
                     } else if (columns.charAt(column) == 'a' || columns.charAt(column) == 'h') {
                         board.put(
                                 String.valueOf(columns.charAt(column)) + rows.charAt(row),
-                                new Rook(pieceColor)
+                                new Square(new Rook(pieceColor))
                         );
                     } else if (columns.charAt(column) == 'b' || columns.charAt(column) == 'g') {
                         board.put(
                                 String.valueOf(columns.charAt(column)) + rows.charAt(row),
-                                new Knight(pieceColor)
+                                new Square(new Knight(pieceColor))
                         );
                     } else {
                         board.put(
                                 String.valueOf(columns.charAt(column)) + rows.charAt(row),
-                                new Bishop(pieceColor)
+                                new Square(new Bishop(pieceColor))
                         );
                     }
                 } else if (rows.charAt(row) == '2') {
                     board.put(
                             String.valueOf(columns.charAt(column)) + rows.charAt(row),
-                            new Pawn(ColorEnum.WHITE.getCode())
+                            new Square(new Pawn(ColorEnum.WHITE.getCode()))
                     );
                 } else if (rows.charAt(row) == '7') {
                     board.put(
                             String.valueOf(columns.charAt(column)) + rows.charAt(row),
-                            new Pawn(ColorEnum.BLACK.getCode())
+                            new Square(new Pawn(ColorEnum.BLACK.getCode()))
                     );
                 } else {
                     board.put(
                             String.valueOf(columns.charAt(column)) + rows.charAt(row),
-                            null
+                            new Square(null)
                     );
                 }
             }
@@ -74,9 +74,5 @@ public class Board {
 
     private boolean isCheckmate() {
         return false;
-    }
-
-    public HashMap<String, PieceInterface> getBoard() {
-        return board;
     }
 }

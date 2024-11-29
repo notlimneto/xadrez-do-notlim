@@ -60,7 +60,7 @@ public class ChessGame {
         String currentPosition = move.substring(0, 2);
         String nextPosition = move.substring(2);
 
-        board.getBoard().get(currentPosition).makeMove(board, currentPosition, nextPosition);
+        board.getBoard().get(currentPosition).getPiece().makeMove(board, currentPosition, nextPosition);
     }
 
     private boolean isValidMove(String move, char color){
@@ -69,10 +69,10 @@ public class ChessGame {
         String currentPosition = move.substring(0, 2);
         String nextPosition = move.substring(2);
 
-        if (board.getBoard().get(currentPosition) == null || board.getBoard().get(currentPosition).getColor() != color) {
+        if (board.getBoard().get(currentPosition).getPiece() == null || board.getBoard().get(currentPosition).getPiece().getColor() != color) {
             return false;
         } else {
-            PieceInterface pieceOnCurrentPosition = board.getBoard().get(currentPosition);
+            PieceInterface pieceOnCurrentPosition = board.getBoard().get(currentPosition).getPiece();
             boolean validMoveSyntax = (PositionIdentifiersEnum.COLUMNS.getValues().contains(nextPosition.substring(0,1)) &&
                     PositionIdentifiersEnum.ROWS.getValues().contains(nextPosition.substring(1)));
             if (!validMoveSyntax) return false;
