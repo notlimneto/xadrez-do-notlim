@@ -21,58 +21,64 @@ public class Board {
     private void montaTabuleiro() {
         String columns = PositionIdentifiersEnum.COLUMNS.getValues();
         String rows = PositionIdentifiersEnum.ROWS.getValues();
-        for(int row = 0; row < rows.length(); row++) {
-            for (int column = 0; column < columns.length(); column++) {
-                if (rows.charAt(row) == '1' || rows.charAt(row) == '8') {
-                    char pieceColor = (rows.charAt(row) == '1') ? ColorEnum.WHITE.getCode() : ColorEnum.BLACK.getCode();
+        for(char row : rows.toCharArray()) {
+            for (char column : columns.toCharArray()) {
+                if (row == '1' || row == '8') {
+                    char pieceColor = (row == '1') ? ColorEnum.WHITE.getCode() : ColorEnum.BLACK.getCode();
 
-                    if (columns.charAt(column) == 'd') {
+                    if (column == 'd') {
                         board.put(
-                                String.valueOf(columns.charAt(column)) + rows.charAt(row),
+                                String.valueOf(column) + row,
                                 new Square(new Queen(pieceColor))
                         );
-                    } else if (columns.charAt(column) == 'e') {
+                    } else if (column == 'e') {
                         board.put(
-                                String.valueOf(columns.charAt(column)) + rows.charAt(row),
+                                String.valueOf(column) + row,
                                 new Square(new King(pieceColor))
                         );
-                    } else if (columns.charAt(column) == 'a' || columns.charAt(column) == 'h') {
+                    } else if (column == 'a' || column == 'h') {
                         board.put(
-                                String.valueOf(columns.charAt(column)) + rows.charAt(row),
+                                String.valueOf(column) + row,
                                 new Square(new Rook(pieceColor))
                         );
-                    } else if (columns.charAt(column) == 'b' || columns.charAt(column) == 'g') {
+                    } else if (column == 'b' || column == 'g') {
                         board.put(
-                                String.valueOf(columns.charAt(column)) + rows.charAt(row),
+                                String.valueOf(column) + row,
                                 new Square(new Knight(pieceColor))
                         );
                     } else {
                         board.put(
-                                String.valueOf(columns.charAt(column)) + rows.charAt(row),
+                                String.valueOf(column) + row,
                                 new Square(new Bishop(pieceColor))
                         );
                     }
-                } else if (rows.charAt(row) == '2') {
+                } else if (row == '2') {
                     board.put(
-                            String.valueOf(columns.charAt(column)) + rows.charAt(row),
+                            String.valueOf(column) + row,
                             new Square(new Pawn(ColorEnum.WHITE.getCode()))
                     );
-                } else if (rows.charAt(row) == '7') {
+                } else if (row == '7') {
                     board.put(
-                            String.valueOf(columns.charAt(column)) + rows.charAt(row),
+                            String.valueOf(column) + row,
                             new Square(new Pawn(ColorEnum.BLACK.getCode()))
                     );
                 } else {
                     board.put(
-                            String.valueOf(columns.charAt(column)) + rows.charAt(row),
+                            String.valueOf(column) + row,
                             new Square(null)
                     );
                 }
             }
         }
-    }
 
-    private boolean isCheckmate() {
-        return false;
+        for(char row : rows.toCharArray()) {
+            for (char column : columns.toCharArray()) {
+                String currentSquare = String.valueOf(column) + row;
+                System.out.println(currentSquare);
+                if (board.get(currentSquare).getPiece() != null) {
+                    board.get(currentSquare).getPiece().updateWatchedSquares(this, currentSquare);
+                }
+            }
+        }
     }
 }

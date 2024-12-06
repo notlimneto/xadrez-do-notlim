@@ -2,6 +2,7 @@ package xadrezdonotlim.validation;
 
 import xadrezdonotlim.domain.Board;
 import xadrezdonotlim.enumeration.PositionIdentifiersEnum;
+import xadrezdonotlim.util.MoveUtil;
 
 public class BishopValidation {
     public static boolean moveValidation(Board board, String currentPosition, String nextPosition, char color){
@@ -17,13 +18,7 @@ public class BishopValidation {
         Integer indexOfCurrentColumn = columns.indexOf(currentColumn);
         Integer indexOfNextColumn = columns.indexOf(nextColumn);
 
-        Integer rowDifference = currentRow - nextRow;
-
-        Integer columnDifference = indexOfCurrentColumn - indexOfNextColumn;
-
-        boolean isMoveDiagonal = Math.abs(rowDifference) == Math.abs(columnDifference);
-
-        if (!isMoveDiagonal) return false;
+        if (!MoveUtil.diagonalMoveValidation(currentPosition, nextPosition)) return false;
 
         boolean hasSameColorPieceOnNextSquare = positionMap.get(nextPosition).getPiece() != null && positionMap.get(nextPosition).getPiece().getColor() == color;
 

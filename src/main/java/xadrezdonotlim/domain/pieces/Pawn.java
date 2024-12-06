@@ -92,16 +92,36 @@ public class Pawn implements PieceInterface{
         return PawnValidation.moveValidation(board, currentPosition, nextPosition, color, hasMoved, hasEnPassant);
     }
 
-    public List<String> getPossibleMoves(String currentPosition, Board board) {
+    //High complexity for a simple piece but ima keep it this way for a while untill i finish checkmate logic
+    public List<String> getPossibleMoves(Board board, String currentPosition) {
         List<String> possibleMoves = new ArrayList<>();
 
         String columns = PositionIdentifiersEnum.COLUMNS.getValues();
+        String rows = PositionIdentifiersEnum.ROWS.getValues();
 
-        String column = currentPosition.substring(0, 1);
-        Integer row = Integer.valueOf(currentPosition.substring(1));
-        var positionMap = board.getBoard();
+        for (char column : columns.toCharArray()) {
+            for (char row : rows.toCharArray()) {
+                String position = String.valueOf(column) + row;
+
+                if (PawnValidation.moveValidation(board, currentPosition, position, color, hasMoved, hasEnPassant)) {
+                    possibleMoves.add(position);
+                }
+            }
+        }
 
         return possibleMoves;
+    }
+
+    public List<String> getPossibleCaptures(Board board, String currentPosition) {
+        List<String> possibleCaptures = new ArrayList<>();
+
+        
+
+        return possibleCaptures;
+    }
+
+    public void updateWatchedSquares(Board board, String currentPosition) {
+
     }
 
     private boolean isMoveEnPassant(Board board, String currentPosition, String nextPosition) {

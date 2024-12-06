@@ -18,7 +18,7 @@ public class BoardView {
 
     private static final String[] terminalBoard = new String[25];
 
-    //Com o maior respeito do mundo a quem pegou meu código pra ver do github mas aqui foi pro caralho tudo repara n
+
     public static void updateBoard(Board board) {
         try{
             terminalBoard[0] = b + W + B + W + B + W + B + W + B;
