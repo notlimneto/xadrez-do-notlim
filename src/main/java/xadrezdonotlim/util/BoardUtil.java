@@ -4,6 +4,9 @@ import xadrezdonotlim.domain.Board;
 import xadrezdonotlim.domain.pieces.PieceInterface;
 import xadrezdonotlim.enumeration.PositionIdentifiersEnum;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BoardUtil {
     public static PieceInterface[] getRowPieces(int row, Board board) {
         char[] columnsArray  = PositionIdentifiersEnum.COLUMNS.getValues().toCharArray();

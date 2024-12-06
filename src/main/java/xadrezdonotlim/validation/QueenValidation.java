@@ -35,21 +35,21 @@ public class QueenValidation {
             if (currentRow.compareTo(nextRow) > 0) {
                 if (indexOfCurrentColumn.compareTo(indexOfNextColumn)>0){
                     for (int i = currentRow - 1; i > nextRow; i--) {
-                        if (positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn-(currentRow-i))) + i) != null) return false;
+                        if (positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn-(currentRow-i))) + i).getPiece() != null) return false;
                     }
                 } else {
                     for (int i = currentRow - 1; i > nextRow; i--) {
-                        if (positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn+(currentRow-i))) + i) != null) return false;
+                        if (positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn+(currentRow-i))) + i).getPiece() != null) return false;
                     }
                 }
             } else {
                 if (indexOfCurrentColumn.compareTo(indexOfNextColumn)>0){
                     for (int i = currentRow + 1; i < nextRow; i++) {
-                        if (positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn-(i-currentRow))) + i) != null) return false;
+                        if (positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn-(i-currentRow))) + i).getPiece() != null) return false;
                     }
                 } else {
                     for (int i = currentRow + 1; i < nextRow; i++) {
-                        if (positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn+(i-currentRow))) + i) != null) return false;
+                        if (positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn+(i-currentRow))) + i).getPiece() != null) return false;
                     }
                 }
             }
@@ -57,21 +57,21 @@ public class QueenValidation {
             if (currentColumn.equals(nextColumn)) {
                 if(currentRow.compareTo(nextRow) > 0) {
                     for (int i = currentRow - 1; i > nextRow; i--) {
-                        if (positionMap.get(currentColumn + i) != null) return false;
+                        if (positionMap.get(currentColumn + i).getPiece() != null) return false;
                     }
                 } else {
                     for (int i = currentRow + 1; i < nextRow; i++) {
-                        if (positionMap.get(currentColumn + i) != null) return false;
+                        if (positionMap.get(currentColumn + i).getPiece() != null) return false;
                     }
                 }
             } else {
                 if(indexOfCurrentColumn.compareTo(indexOfNextColumn) > 0) {
                     for (int i = indexOfCurrentColumn - 1; i > indexOfNextColumn; i--) {
-                        if (positionMap.get(String.valueOf(columns.charAt(i)) + currentRow) != null) return false;
+                        if (positionMap.get(String.valueOf(columns.charAt(i)) + currentRow).getPiece() != null) return false;
                     }
                 } else {
                     for (int i = indexOfCurrentColumn + 1; i < indexOfNextColumn; i++) {
-                        if (positionMap.get(String.valueOf(columns.charAt(i)) + currentRow) != null) return false;
+                        if (positionMap.get(String.valueOf(columns.charAt(i)) + currentRow).getPiece() != null) return false;
                     }
                 }
             }

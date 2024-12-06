@@ -2,6 +2,7 @@ package xadrezdonotlim.validation;
 
 import xadrezdonotlim.domain.Board;
 import xadrezdonotlim.enumeration.PositionIdentifiersEnum;
+import xadrezdonotlim.util.MoveUtil;
 
 public class RookValidation {
 
@@ -18,9 +19,7 @@ public class RookValidation {
         Integer indexOfCurrentColumn = columns.indexOf(currentColumn);
         Integer indexOfNextColumn = columns.indexOf(nextColumn);
 
-        boolean isMoveLinear = indexOfCurrentColumn.equals(indexOfNextColumn) || currentRow.equals(nextRow);
-
-        if(!isMoveLinear) return false;
+        if(!MoveUtil.linearMoveValidation(currentPosition, nextPosition)) return false;
 
         boolean hasSameColorPieceOnNextSquare = positionMap.get(nextPosition).getPiece() != null && positionMap.get(nextPosition).getPiece().getColor() == color;
 
