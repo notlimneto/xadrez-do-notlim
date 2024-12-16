@@ -38,7 +38,7 @@ public class ChessGame {
     private void whiteMove(){
         System.out.println("\n" + BoardView.WHITE_BACKGROUND_BLACK_TEXT + "Brancas" + BoardView.R + " fazem lance:");
         String move = scanner.nextLine();
-        while (!isValidMove(move, ColorEnum.WHITE.getCode())) {
+        while (!isValidMove(move, ColorEnum.WHITE.getValue())) {
             System.out.println("Movimento inválido, tente novamente: ");
             move = scanner.nextLine();
         }
@@ -49,7 +49,7 @@ public class ChessGame {
     private void blackMove(){
         System.out.println("\n" + BoardView.BLACK_BACKGROUND_WHITE_TEXT + "Pretas" + BoardView.R + " fazem lance:");
         String move = scanner.nextLine();
-        while (!isValidMove(move, ColorEnum.BLACK.getCode())) {
+        while (!isValidMove(move, ColorEnum.BLACK.getValue())) {
             System.out.println("Movimento inválido, tente novamente: ");
             move = scanner.nextLine();
         }
@@ -60,7 +60,7 @@ public class ChessGame {
         String currentPosition = move.substring(0, 2);
         String nextPosition = move.substring(2);
 
-        board.getBoard().get(currentPosition).getPiece().makeMove(board, currentPosition, nextPosition);
+        board.getBoard().get(currentPosition).makeMove(board, currentPosition, nextPosition);
     }
 
     private boolean isValidMove(String move, char color){
@@ -69,10 +69,10 @@ public class ChessGame {
         String currentPosition = move.substring(0, 2);
         String nextPosition = move.substring(2);
 
-        if (board.getBoard().get(currentPosition).getPiece() == null || board.getBoard().get(currentPosition).getPiece().getColor() != color) {
+        if (board.getBoard().get(currentPosition) == null || board.getBoard().get(currentPosition).getColor() != color) {
             return false;
         } else {
-            PieceInterface pieceOnCurrentPosition = board.getBoard().get(currentPosition).getPiece();
+            PieceInterface pieceOnCurrentPosition = board.getBoard().get(currentPosition);
             boolean validMoveSyntax = (PositionIdentifiersEnum.COLUMNS.getValues().contains(nextPosition.substring(0,1)) &&
                     PositionIdentifiersEnum.ROWS.getValues().contains(nextPosition.substring(1)));
             if (!validMoveSyntax) return false;

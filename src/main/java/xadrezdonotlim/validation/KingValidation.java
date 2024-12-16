@@ -21,7 +21,7 @@ public class KingValidation {
 
         if (!movementCondition) return false;
 
-        boolean hasSameColorPieceOnNextSquare = positionMap.get(nextPosition).getPiece() != null && positionMap.get(nextPosition).getPiece().getColor() == color;
+        boolean hasSameColorPieceOnNextSquare = positionMap.get(nextPosition) != null && positionMap.get(nextPosition).getColor() == color;
 
         if (hasSameColorPieceOnNextSquare) return false;
 

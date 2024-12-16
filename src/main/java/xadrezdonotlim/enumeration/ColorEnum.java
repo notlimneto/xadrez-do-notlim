@@ -7,9 +7,9 @@ public enum ColorEnum {
     WHITE('w'),
     BLACK('b');
 
-    private final char code;
+    private final char value;
 
-    ColorEnum(char code) {
-        this.code = code;
+    ColorEnum(char value) {
+        this.value = value;
     }
 }

@@ -2,6 +2,7 @@ package xadrezdonotlim.util;
 
 import xadrezdonotlim.domain.Board;
 import xadrezdonotlim.domain.pieces.PieceInterface;
+import xadrezdonotlim.enumeration.ColorEnum;
 import xadrezdonotlim.enumeration.PositionIdentifiersEnum;
 
 public class BoardUtil {
@@ -10,9 +11,22 @@ public class BoardUtil {
         PieceInterface[] rowPieces = new PieceInterface[8];
 
         for (int i = 0; i < 8; i++){
-            rowPieces[i] = board.getBoard().get(String.valueOf(columnsArray[i]) + row).getPiece();
+            rowPieces[i] = board.getBoard().get(String.valueOf(columnsArray[i]) + row);
         }
 
         return rowPieces;
+    }
+
+    public static boolean isKingChecked(Board board, String kingPosition, char color) {
+//        if (color == ColorEnum.WHITE.getValue()) {
+//            for (PieceInterface piece : board.getBlackPieces().values()) {
+//                if (piece.isMovePossible(board))
+//            }
+//        } else {
+//            for (PieceInterface piece : board.getWhitePieces().values()) {
+//
+//            }
+//        }
+        return false;
     }
 }

@@ -29,8 +29,8 @@ public class KnightValidation {
 
         if (!movementCondition) return false;
 
-        if (positionMap.get(nextPosition).getPiece() != null) {
-            return !(positionMap.get(nextPosition).getPiece().getColor() == color);
+        if (positionMap.get(nextPosition) != null) {
+            return !(positionMap.get(nextPosition).getColor() == color);
         } else return true;
     }
 }

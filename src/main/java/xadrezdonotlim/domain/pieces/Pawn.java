@@ -18,22 +18,26 @@ public class Pawn implements PieceInterface{
     private boolean hasMoved;
 
     @Setter
+    private String square;
+
+    @Setter
     private String enPassantColumn;
 
     @Setter
     private boolean hasEnPassant;
 
-    public Pawn(char color) {
+    public Pawn(char color, String square) {
         this.color = color;
         this.pieceCode = 'P';
         this.hasMoved = false;
         this.hasEnPassant = false;
+        this.square = square;
     }
 
     @Override
     public void makeMove(Board board, String currentPosition, String nextPosition) {
         var positionMap = board.getBoard();
-        Pawn pieceMoved = (Pawn) positionMap.get(currentPosition).getPiece();
+        Pawn pieceMoved = (Pawn) positionMap.get(currentPosition);
 
         String columns = PositionIdentifiersEnum.COLUMNS.getValues();
 
@@ -46,14 +50,29 @@ public class Pawn implements PieceInterface{
         Integer indexOfCurrentColumn = columns.indexOf(currentColumn);
 
         if(isMoveEnPassant(board, currentPosition, nextPosition)) {
-            positionMap.get(currentPosition).setPiece(null);
-            positionMap.get(nextPosition).setPiece(pieceMoved);
-            positionMap.get(nextColumn + ((color == ColorEnum.WHITE.getCode()) ? nextRow - 1 : nextRow + 1)).setPiece(null);
+            positionMap.put(currentPosition, null);
+
+            if (color == ColorEnum.WHITE.getValue()) {
+                board.getWhitePieces().remove(currentPosition);
+                board.getWhitePieces().put(nextPosition, pieceMoved);
+
+                if (positionMap.get(nextColumn + (nextRow - 1)) != null)
+                    board.getBlackPieces().remove(nextColumn + (nextRow - 1));
+            } else {
+                board.getBlackPieces().remove(currentPosition);
+                board.getBlackPieces().put(nextPosition, pieceMoved);
+
+                if (positionMap.get(nextColumn + (nextRow + 1)) != null)
+                    board.getWhitePieces().remove(nextColumn + (nextRow + 1));
+            }
+
+            positionMap.put(nextPosition, pieceMoved);
+            positionMap.put(nextColumn + ((color == ColorEnum.WHITE.getValue()) ? nextRow - 1 : nextRow + 1), null);
             pieceMoved.setHasEnPassant(false);
         } else {
             if(currentRow - nextRow > 1 || nextRow - currentRow > 1) {
-                var leftPiece = (Pawn) ((indexOfCurrentColumn - 1 >= 0) ? positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn - 1)) + nextRow).getPiece() : null);
-                var rightPiece = (Pawn) ((indexOfCurrentColumn + 1 <= 7) ? positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn + 1)) + nextRow).getPiece(): null);
+                var leftPiece = (Pawn) ((indexOfCurrentColumn - 1 >= 0) ? positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn - 1)) + nextRow) : null);
+                var rightPiece = (Pawn) ((indexOfCurrentColumn + 1 <= 7) ? positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn + 1)) + nextRow): null);
 
                 if (leftPiece != null) {
                     leftPiece.setHasEnPassant(true);
@@ -65,25 +84,31 @@ public class Pawn implements PieceInterface{
                 }
             }
 
-            positionMap.get(currentPosition).setPiece(null);
-            if((color == ColorEnum.WHITE.getCode()) ? nextRow==8 : nextRow==1) {
+            positionMap.put(currentPosition, null);
+            if((color == ColorEnum.WHITE.getValue()) ? nextRow==8 : nextRow==1) {
                 Scanner scanner = new Scanner(System.in);
                 System.out.println("Para qual peça quer promover? T - Torre; C - Cavalo; B - Bispo; D - Dama");
 
-                String promotionPiece = scanner.nextLine();
+                String promotionPieceChoice = scanner.nextLine();
 
-                while (!promotionPiece.equals("T") && !promotionPiece.equals("C") && !promotionPiece.equals("B") && !promotionPiece.equals("D")) {
+                while (!promotionPieceChoice.equals("T") && !promotionPieceChoice.equals("C") && !promotionPieceChoice.equals("B") && !promotionPieceChoice.equals("D")) {
                     System.out.println("Peça de promoção inválida");
-                    promotionPiece = scanner.nextLine();
+                    promotionPieceChoice = scanner.nextLine();
                 }
 
-                switch (promotionPiece) {
-                    case "T":  positionMap.get(nextPosition).setPiece(new Rook(color));
-                    case "C":  positionMap.get(nextPosition).setPiece(new Knight(color));
-                    case "B":  positionMap.get(nextPosition).setPiece(new Bishop(color));
-                    case "D":  positionMap.get(nextPosition).setPiece(new Queen(color));
-                }
-            } else positionMap.get(nextPosition).setPiece(pieceMoved);
+                PieceInterface piece;
+
+                if (promotionPieceChoice.equals("T")) piece = new Rook(color, nextPosition);
+                else if (promotionPieceChoice.equals("C")) piece = new Knight(color, nextPosition);
+                else if (promotionPieceChoice.equals("B")) piece = new Bishop(color, nextPosition);
+                else piece = new Queen(color, nextPosition);
+
+                updatePieceMaps(board, piece, currentPosition, nextPosition);
+                positionMap.put(nextPosition, piece);
+            } else {
+                updatePieceMaps(board, pieceMoved, currentPosition, nextPosition);
+                positionMap.put(nextPosition, pieceMoved);
+            }
 
         }
     }
@@ -92,7 +117,7 @@ public class Pawn implements PieceInterface{
         return PawnValidation.moveValidation(board, currentPosition, nextPosition, color, hasMoved, hasEnPassant);
     }
 
-    public List<String> getPossibleMoves(String currentPosition, Board board) {
+    public List<String> getPossibleMoves(Board board, String currentPosition) {
         List<String> possibleMoves = new ArrayList<>();
 
         String columns = PositionIdentifiersEnum.COLUMNS.getValues();
@@ -116,7 +141,7 @@ public class Pawn implements PieceInterface{
 
         if (!hasEnPassant) return false;
         else {
-            return board.getBoard().get(nextPosition).getPiece() == null && indexCurrentColumn.compareTo(indexNextColumn) != 0;
+            return board.getBoard().get(nextPosition) == null && indexCurrentColumn.compareTo(indexNextColumn) != 0;
         }
     }
 

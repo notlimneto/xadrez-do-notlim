@@ -25,28 +25,28 @@ public class BishopValidation {
 
         if (!isMoveDiagonal) return false;
 
-        boolean hasSameColorPieceOnNextSquare = positionMap.get(nextPosition).getPiece() != null && positionMap.get(nextPosition).getPiece().getColor() == color;
+        boolean hasSameColorPieceOnNextSquare = positionMap.get(nextPosition) != null && positionMap.get(nextPosition).getColor() == color;
 
         if (hasSameColorPieceOnNextSquare) return false;
 
         if (currentRow.compareTo(nextRow) > 0) {
             if (indexOfCurrentColumn.compareTo(indexOfNextColumn)>0){
                 for (int i = currentRow - 1; i > nextRow; i--) {
-                    if (positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn-(currentRow-i))) + i).getPiece() != null) return false;
+                    if (positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn-(currentRow-i))) + i) != null) return false;
                 }
             } else {
                 for (int i = currentRow - 1; i > nextRow; i--) {
-                    if (positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn+(currentRow-i))) + i).getPiece() != null) return false;
+                    if (positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn+(currentRow-i))) + i) != null) return false;
                 }
             }
         } else {
             if (indexOfCurrentColumn.compareTo(indexOfNextColumn)>0){
                 for (int i = currentRow + 1; i < nextRow; i++) {
-                    if (positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn-(i-currentRow))) + i).getPiece() != null) return false;
+                    if (positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn-(i-currentRow))) + i) != null) return false;
                 }
             } else {
                 for (int i = currentRow + 1; i < nextRow; i++) {
-                    if (positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn+(i-currentRow))) + i).getPiece() != null) return false;
+                    if (positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn+(i-currentRow))) + i) != null) return false;
                 }
             }
         }

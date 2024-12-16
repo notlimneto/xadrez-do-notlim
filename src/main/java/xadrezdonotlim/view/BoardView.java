@@ -89,7 +89,7 @@ public class BoardView {
         int i = 0;
         for (PieceInterface piece : pieces) {
             if(piece!=null) {
-                colorPieces[i] = (piece.getColor()== ColorEnum.WHITE.getCode()) ?
+                colorPieces[i] = (piece.getColor()== ColorEnum.WHITE.getValue()) ?
                         WHITE_BACKGROUND_BLACK_TEXT + " " + piece.getPieceCode() + " " + R:
                         BLACK_BACKGROUND_WHITE_TEXT + " " + piece.getPieceCode() + " " + R;
             } else {
