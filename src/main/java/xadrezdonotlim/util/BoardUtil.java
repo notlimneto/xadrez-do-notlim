@@ -18,15 +18,19 @@ public class BoardUtil {
     }
 
     public static boolean isKingChecked(Board board, String kingPosition, char color) {
-//        if (color == ColorEnum.WHITE.getValue()) {
-//            for (PieceInterface piece : board.getBlackPieces().values()) {
-//                if (piece.isMovePossible(board))
-//            }
-//        } else {
-//            for (PieceInterface piece : board.getWhitePieces().values()) {
-//
-//            }
-//        }
+        if (color == ColorEnum.WHITE.getValue()) {
+            for (PieceInterface piece : board.getBlackPieces().values()) {
+                if (piece.isMovePossible(board, piece.getSquare(), kingPosition)) {
+                    return true;
+                }
+            }
+        } else {
+            for (PieceInterface piece : board.getWhitePieces().values()) {
+                if (piece.isMovePossible(board, piece.getSquare(), kingPosition)) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 }

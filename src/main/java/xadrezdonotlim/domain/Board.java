@@ -15,6 +15,9 @@ public class Board {
     private final HashMap<String, PieceInterface> whitePieces = new HashMap<>();
     private final HashMap<String, PieceInterface> blackPieces = new HashMap<>();
 
+    private King whiteKing;
+    private King blackKing;
+
     public Board() {
         montaTabuleiro();
         BoardView.updateBoard(this);
@@ -58,12 +61,15 @@ public class Board {
         }
     }
 
-    private static PieceInterface getPiece(char row, char column, char pieceColor) {
+    private PieceInterface getPiece(char row, char column, char pieceColor) {
         PieceInterface piece;
 
         if (column == 'd') piece = new Queen(pieceColor, String.valueOf(column) + row);
-        else if (column == 'e') piece = new King(pieceColor, String.valueOf(column) + row);
-        else if (column == 'a' || column == 'h') piece = new Rook(pieceColor, String.valueOf(column) + row);
+        else if (column == 'e') {
+            piece = new King(pieceColor, String.valueOf(column) + row);
+            if (pieceColor == ColorEnum.WHITE.getValue()) this.whiteKing = (King) piece;
+            else this.blackKing = (King) piece;
+        } else if (column == 'a' || column == 'h') piece = new Rook(pieceColor, String.valueOf(column) + row);
         else if (column == 'b' || column == 'g') piece = new Knight(pieceColor, String.valueOf(column) + row);
         else piece = new Bishop(pieceColor, String.valueOf(column) + row);
         return piece;

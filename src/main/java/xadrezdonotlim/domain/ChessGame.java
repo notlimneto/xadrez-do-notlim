@@ -3,6 +3,7 @@ package xadrezdonotlim.domain;
 import xadrezdonotlim.domain.pieces.PieceInterface;
 import xadrezdonotlim.enumeration.ColorEnum;
 import xadrezdonotlim.enumeration.PositionIdentifiersEnum;
+import xadrezdonotlim.util.BoardUtil;
 import xadrezdonotlim.view.BoardView;
 import xadrezdonotlim.view.ChessView;
 
@@ -36,6 +37,7 @@ public class ChessGame {
     }
 
     private void whiteMove(){
+        if (BoardUtil.isKingChecked(board, board.getWhiteKing().getSquare(), ColorEnum.WHITE.getValue())) System.out.println("\nRei Branco está em cheque!");
         System.out.println("\n" + BoardView.WHITE_BACKGROUND_BLACK_TEXT + "Brancas" + BoardView.R + " fazem lance:");
         String move = scanner.nextLine();
         while (!isValidMove(move, ColorEnum.WHITE.getValue())) {
@@ -43,10 +45,10 @@ public class ChessGame {
             move = scanner.nextLine();
         }
         makeMove(move);
-
     }
 
     private void blackMove(){
+        if (BoardUtil.isKingChecked(board, board.getBlackKing().getSquare(), ColorEnum.BLACK.getValue())) System.out.println("\nRei Preto está em cheque!");
         System.out.println("\n" + BoardView.BLACK_BACKGROUND_WHITE_TEXT + "Pretas" + BoardView.R + " fazem lance:");
         String move = scanner.nextLine();
         while (!isValidMove(move, ColorEnum.BLACK.getValue())) {

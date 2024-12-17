@@ -67,6 +67,7 @@ public class Pawn implements PieceInterface{
             }
 
             positionMap.put(nextPosition, pieceMoved);
+            pieceMoved.setSquare(nextPosition);
             positionMap.put(nextColumn + ((color == ColorEnum.WHITE.getValue()) ? nextRow - 1 : nextRow + 1), null);
             pieceMoved.setHasEnPassant(false);
         } else {
@@ -105,9 +106,13 @@ public class Pawn implements PieceInterface{
 
                 updatePieceMaps(board, piece, currentPosition, nextPosition);
                 positionMap.put(nextPosition, piece);
+
+                piece.setSquare(nextPosition);
             } else {
                 updatePieceMaps(board, pieceMoved, currentPosition, nextPosition);
                 positionMap.put(nextPosition, pieceMoved);
+
+                pieceMoved.setSquare(nextPosition);
             }
 
         }
