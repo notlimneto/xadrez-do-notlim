@@ -18,10 +18,15 @@ public class KnightValidation {
         Integer indexOfCurrentColumn = columns.indexOf(currentColumn);
         Integer indexOfNextColumn = columns.indexOf(nextColumn);
 
-        boolean columnMovementCondition = indexOfCurrentColumn - indexOfNextColumn == 2 || indexOfCurrentColumn - indexOfNextColumn == -2;
-        boolean rowMovementCondition = currentRow - nextRow == 2 || currentRow - nextRow == -2 ;
+        Integer columnDifference = Math.abs(indexOfCurrentColumn - indexOfNextColumn);
+        Integer rowDifference = Math.abs(currentRow - nextRow);
 
-        boolean notSquareEdgesCondition = (columnMovementCondition || rowMovementCondition) && ! (columnMovementCondition && rowMovementCondition);
+        if (columnDifference > 2 || rowDifference > 2) return false;
+
+        boolean columnMovementCondition = columnDifference == 2;
+        boolean rowMovementCondition = rowDifference == 2 ;
+
+        boolean notSquareEdgesCondition = columnMovementCondition ^ rowMovementCondition; //XOR
 
         boolean isSameColumnOrRow = currentRow.equals(nextRow) || currentColumn.equals(nextColumn);
 
