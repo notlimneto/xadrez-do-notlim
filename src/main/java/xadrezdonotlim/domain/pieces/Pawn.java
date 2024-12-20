@@ -12,10 +12,9 @@ import java.util.List;
 import java.util.Scanner;
 
 @Getter
-public class Pawn implements PieceInterface{
+public class Pawn implements PieceInterface, Cloneable{
     private final char color;
     private final char pieceCode;
-    private boolean hasMoved;
 
     @Setter
     private String square;
@@ -29,9 +28,12 @@ public class Pawn implements PieceInterface{
     public Pawn(char color, String square) {
         this.color = color;
         this.pieceCode = 'P';
-        this.hasMoved = false;
         this.hasEnPassant = false;
         this.square = square;
+    }
+
+    public boolean isMovePossible(Board board, String currentPosition, String nextPosition) {
+        return PawnValidation.moveValidation(board, currentPosition, nextPosition, color, hasEnPassant);
     }
 
     @Override
@@ -69,19 +71,19 @@ public class Pawn implements PieceInterface{
             positionMap.put(nextPosition, pieceMoved);
             pieceMoved.setSquare(nextPosition);
             positionMap.put(nextColumn + ((color == ColorEnum.WHITE.getValue()) ? nextRow - 1 : nextRow + 1), null);
-            pieceMoved.setHasEnPassant(false);
+            pieceMoved.setHasEnPassant(false); //TODO: Atualizar a lógica de tirar enPassant no movimento de outra peça
         } else {
-            if(currentRow - nextRow > 1 || nextRow - currentRow > 1) {
-                var leftPiece = (Pawn) ((indexOfCurrentColumn - 1 >= 0) ? positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn - 1)) + nextRow) : null);
-                var rightPiece = (Pawn) ((indexOfCurrentColumn + 1 <= 7) ? positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn + 1)) + nextRow): null);
+            if(Math.abs(nextRow - currentRow) > 1) {
+                var leftPiece = ((indexOfCurrentColumn - 1 >= 0) ? positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn - 1)) + nextRow) : null);
+                var rightPiece = ((indexOfCurrentColumn + 1 <= 7) ? positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn + 1)) + nextRow): null);
 
-                if (leftPiece != null) {
-                    leftPiece.setHasEnPassant(true);
-                    leftPiece.setEnPassantColumn(currentColumn);
+                if (leftPiece != null && leftPiece.getClass() == Pawn.class && leftPiece.getColor() != pieceMoved.getColor()) {
+                    ((Pawn) leftPiece).setHasEnPassant(true);
+                    ((Pawn) leftPiece).setEnPassantColumn(currentColumn);
                 }
-                if (rightPiece != null) {
-                    rightPiece.setHasEnPassant(true);
-                    rightPiece.setEnPassantColumn(currentColumn);
+                if (rightPiece != null && rightPiece.getClass() == Pawn.class && rightPiece.getColor() != pieceMoved.getColor()) {
+                    ((Pawn) rightPiece).setHasEnPassant(true);
+                    ((Pawn) rightPiece).setEnPassantColumn(currentColumn);
                 }
             }
 
@@ -118,10 +120,6 @@ public class Pawn implements PieceInterface{
         }
     }
 
-    public boolean isMovePossible(Board board, String currentPosition, String nextPosition) {
-        return PawnValidation.moveValidation(board, currentPosition, nextPosition, color, hasMoved, hasEnPassant);
-    }
-
     public List<String> getPossibleMoves(Board board, String currentPosition) {
         List<String> possibleMoves = new ArrayList<>();
 
@@ -150,7 +148,12 @@ public class Pawn implements PieceInterface{
         }
     }
 
-    public void makePieceAdjustmentsOnMove(){
-        this.hasMoved = true;
+    @Override
+    public Pawn clone() {
+        try {
+            return (Pawn) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }
