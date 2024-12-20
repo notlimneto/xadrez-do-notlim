@@ -17,7 +17,7 @@ public class KingValidation {
         Integer indexOfCurrentColumn = columns.indexOf(currentColumn);
         Integer indexOfNextColumn = columns.indexOf(nextColumn);
 
-        boolean movementCondition = Math.abs(nextRow - currentRow) == 1 || Math.abs(indexOfNextColumn - indexOfCurrentColumn) == 1;
+        boolean movementCondition = Math.abs(nextRow - currentRow) <= 1 && Math.abs(indexOfNextColumn - indexOfCurrentColumn) <= 1;
 
         if (!movementCondition) return false;
 
