@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class PawnValidation {
 
     public static boolean moveValidation(Board board, String currentPosition, String nextPosition,
-                                         char color, boolean hasMoved, boolean hasEnPassant) {
+                                         char color, boolean hasEnPassant) {
         var positionMap = board.getBoard();
         String columns = PositionIdentifiersEnum.COLUMNS.getValues();
 
@@ -28,10 +28,10 @@ public class PawnValidation {
 
         if (color== ColorEnum.WHITE.getValue()) {
             if(!whiteMoveValidation(currentColumn, currentRow, nextColumn,
-                    nextRow, positionMap, indexCurrentColumn, indexNextColumn, hasMoved)) return false;
+                    nextRow, positionMap, indexCurrentColumn, indexNextColumn)) return false;
         } else {
             if(!blackMoveValidation(currentColumn, currentRow, nextColumn,
-                    nextRow, positionMap, indexCurrentColumn, indexNextColumn, hasMoved)) return false;
+                    nextRow, positionMap, indexCurrentColumn, indexNextColumn)) return false;
         }
 
         if (positionMap.get(nextPosition) != null) {
@@ -54,14 +54,13 @@ public class PawnValidation {
 
     public static boolean whiteMoveValidation(String currentColumn, Integer currentRow, String nextColumn,
                                               Integer nextRow, HashMap<String, PieceInterface> positionMap,
-                                              Integer indexCurrentColumn, Integer indexNextColumn,
-                                              boolean hasMoved) {
+                                              Integer indexCurrentColumn, Integer indexNextColumn) {
 
         if (nextRow.compareTo(currentRow)<=0) return false;
 
         if (nextRow-currentRow>2) return false;
 
-        if (nextRow-currentRow==2 && hasMoved) return false;
+        if (nextRow-currentRow==2 && currentRow!=2) return false;
 
         if (nextRow-currentRow==2 && positionMap.get(currentColumn + (currentRow+1))!=null) return false;
 
@@ -72,14 +71,13 @@ public class PawnValidation {
 
     public static boolean blackMoveValidation(String currentColumn, Integer currentRow, String nextColumn,
                                               Integer nextRow, HashMap<String, PieceInterface> positionMap,
-                                              Integer indexCurrentColumn, Integer indexNextColumn,
-                                              boolean hasMoved) {
+                                              Integer indexCurrentColumn, Integer indexNextColumn) {
 
         if (currentRow.compareTo(nextRow)<=0) return false;
 
         if (currentRow-nextRow>2) return false;
 
-        if (currentRow-nextRow==2 && hasMoved) return false;
+        if (currentRow-nextRow==2 && currentRow!=7) return false;
 
         if (currentRow-nextRow==2 && positionMap.get(currentColumn + (currentRow-1))!=null) return false;
 
