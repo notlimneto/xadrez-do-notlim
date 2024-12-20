@@ -78,7 +78,8 @@ public class ChessGame {
             boolean validMoveSyntax = (PositionIdentifiersEnum.COLUMNS.getValues().contains(nextPosition.substring(0,1)) &&
                     PositionIdentifiersEnum.ROWS.getValues().contains(nextPosition.substring(1)));
             if (!validMoveSyntax) return false;
-            else return pieceOnCurrentPosition.isMovePossible(board, currentPosition, nextPosition);
+            if(!pieceOnCurrentPosition.isMovePossible(board, currentPosition, nextPosition)) return false;
+            return !BoardUtil.isMoveCausingSelfCheck(board, currentPosition, nextPosition);
         }
     }
 }
