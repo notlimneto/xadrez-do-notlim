@@ -71,7 +71,7 @@ public class Pawn implements PieceInterface, Cloneable{
             positionMap.put(nextPosition, pieceMoved);
             pieceMoved.setSquare(nextPosition);
             positionMap.put(nextColumn + ((color == ColorEnum.WHITE.getValue()) ? nextRow - 1 : nextRow + 1), null);
-            pieceMoved.setHasEnPassant(false); //TODO: Atualizar a lógica de tirar enPassant no movimento de outra peça
+            pieceMoved.setHasEnPassant(false);
         } else {
             if(Math.abs(nextRow - currentRow) > 1) {
                 var leftPiece = ((indexOfCurrentColumn - 1 >= 0) ? positionMap.get(String.valueOf(columns.charAt(indexOfCurrentColumn - 1)) + nextRow) : null);

@@ -1,6 +1,7 @@
 package xadrezdonotlim.util;
 
 import xadrezdonotlim.domain.Board;
+import xadrezdonotlim.domain.pieces.Pawn;
 import xadrezdonotlim.domain.pieces.PieceInterface;
 import xadrezdonotlim.enumeration.ColorEnum;
 import xadrezdonotlim.enumeration.PositionIdentifiersEnum;
@@ -43,6 +44,16 @@ public class BoardUtil {
             return BoardUtil.isKingChecked(customBoard, customBoard.getWhiteKing().getSquare(), pieceMoved.getColor());
         } else {
             return BoardUtil.isKingChecked(customBoard, customBoard.getBlackKing().getSquare(), pieceMoved.getColor());
+        }
+    }
+
+    public static void unsetEnPassant (Board board, char color) {
+        String columns = PositionIdentifiersEnum.COLUMNS.getValues();
+        String row = color == ColorEnum.WHITE.getValue() ? "5" : "4";
+        var positionMap = board.getBoard();
+        for (char column : columns.toCharArray()) {
+            var piece = positionMap.get(column + row);
+            if (piece != null && piece.getClass() == Pawn.class && piece.getColor() == color) ((Pawn) piece).setHasEnPassant(false);
         }
     }
 }

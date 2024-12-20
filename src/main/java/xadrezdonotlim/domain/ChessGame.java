@@ -45,6 +45,7 @@ public class ChessGame {
             move = scanner.nextLine();
         }
         makeMove(move);
+        BoardUtil.unsetEnPassant(board, ColorEnum.WHITE.getValue());
     }
 
     private void blackMove(){
@@ -56,6 +57,7 @@ public class ChessGame {
             move = scanner.nextLine();
         }
         makeMove(move);
+        BoardUtil.unsetEnPassant(board, ColorEnum.BLACK.getValue());
     }
 
     private void makeMove(String move) {
