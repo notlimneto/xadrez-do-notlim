@@ -33,4 +33,16 @@ public class BoardUtil {
         }
         return false;
     }
+
+    public static boolean isMoveCausingSelfCheck(Board board, String currentPosition, String nextPosition) {
+        Board customBoard = board.getBoardCopy(board.getWhitePieces(), board.getBlackPieces());
+        var pieceMoved = customBoard.getBoard().get(currentPosition);
+        pieceMoved.makeMove(customBoard, currentPosition, nextPosition);
+
+        if(pieceMoved.getColor() == ColorEnum.WHITE.getValue()) {
+            return BoardUtil.isKingChecked(customBoard, customBoard.getWhiteKing().getSquare(), pieceMoved.getColor());
+        } else {
+            return BoardUtil.isKingChecked(customBoard, customBoard.getBlackKing().getSquare(), pieceMoved.getColor());
+        }
+    }
 }
