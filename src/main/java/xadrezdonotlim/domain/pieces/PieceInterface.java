@@ -3,7 +3,6 @@ package xadrezdonotlim.domain.pieces;
 import xadrezdonotlim.domain.Board;
 import xadrezdonotlim.enumeration.ColorEnum;
 
-import java.awt.*;
 import java.util.List;
 
 public interface PieceInterface {

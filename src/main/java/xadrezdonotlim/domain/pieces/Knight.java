@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class Knight implements PieceInterface {
+public class Knight implements PieceInterface, Cloneable {
     private final char color;
     private final char pieceCode;
 
@@ -44,5 +44,14 @@ public class Knight implements PieceInterface {
         }
 
         return possibleMoves;
+    }
+
+    @Override
+    public Knight clone() {
+        try {
+            return (Knight) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

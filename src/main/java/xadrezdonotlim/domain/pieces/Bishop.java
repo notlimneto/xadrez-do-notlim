@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class Bishop implements PieceInterface {
+public class Bishop implements PieceInterface, Cloneable {
     private final char color;
     private final char pieceCode;
 
@@ -44,5 +44,14 @@ public class Bishop implements PieceInterface {
         }
 
         return possibleMoves;
+    }
+
+    @Override
+    public Bishop clone() {
+        try {
+            return (Bishop) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

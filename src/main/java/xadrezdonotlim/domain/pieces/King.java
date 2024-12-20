@@ -10,10 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class King implements PieceInterface {
+public class King implements PieceInterface, Cloneable {
     private final char color;
     private final char pieceCode;
-    private boolean isChecked;
 
     @Setter
     private String square;
@@ -21,7 +20,6 @@ public class King implements PieceInterface {
     public King(char color, String square) {
         this.color = color;
         this.pieceCode = 'R';
-        this.isChecked = false;
         this.square = square;
     }
 
@@ -48,7 +46,12 @@ public class King implements PieceInterface {
         return possibleMoves;
     }
 
-    public void setKingChecked(boolean isChecked) {
-        this.isChecked = isChecked;
+    @Override
+    public King clone() {
+        try {
+            return (King) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

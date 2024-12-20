@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class Queen implements PieceInterface {
+public class Queen implements PieceInterface, Cloneable {
     private final char color;
     private final char pieceCode;
 
@@ -44,5 +44,14 @@ public class Queen implements PieceInterface {
         }
 
         return possibleMoves;
+    }
+
+    @Override
+    public Queen clone() {
+        try {
+            return (Queen) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

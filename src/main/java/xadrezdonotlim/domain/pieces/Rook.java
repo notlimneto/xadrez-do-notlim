@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class Rook implements PieceInterface {
+public class Rook implements PieceInterface, Cloneable {
     private final char color;
     private final char pieceCode;
 
@@ -44,5 +44,14 @@ public class Rook implements PieceInterface {
         }
 
         return possibleMoves;
+    }
+
+    @Override
+    public Rook clone() {
+        try {
+            return (Rook) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }
