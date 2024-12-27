@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import xadrezdonotlim.domain.Board;
 import xadrezdonotlim.enumeration.PositionIdentifiersEnum;
+import xadrezdonotlim.util.BoardUtil;
+import xadrezdonotlim.util.MoveUtil;
+import xadrezdonotlim.validation.KingValidation;
 import xadrezdonotlim.validation.RookValidation;
 
 import java.util.ArrayList;
@@ -27,23 +30,20 @@ public class Rook implements PieceInterface, Cloneable {
         return RookValidation.moveValidation(board, currentPosition, nextPosition, color);
     }
 
-    public List<String> getPossibleMoves(Board board, String currentPosition) {
-        List<String> possibleMoves = new ArrayList<>();
+    public boolean isMovePossibleConsideringSelfCheck(Board board, String currentPosition, String nextPosition) {
+        if (!RookValidation.moveValidation(board, currentPosition, nextPosition, color)) return false;
 
-        String columns = PositionIdentifiersEnum.COLUMNS.getValues();
-        String rows = PositionIdentifiersEnum.ROWS.getValues();
+        return !BoardUtil.isMoveCausingSelfCheck(board, currentPosition, nextPosition);
+    }
 
-        for (char column : columns.toCharArray()) {
-            for (char row : rows.toCharArray()) {
-                String position = String.valueOf(column) + row;
+    public boolean hasMove(Board board) {
+        List<String> possibleMoves = MoveUtil.getLinearMoves(square);
 
-                if (RookValidation.moveValidation(board, currentPosition, position, color)) {
-                    possibleMoves.add(position);
-                }
-            }
+        for (String move : possibleMoves) {
+            if (isMovePossibleConsideringSelfCheck(board, square, move)) return true;
         }
 
-        return possibleMoves;
+        return false;
     }
 
     @Override

@@ -19,7 +19,6 @@ public class Chess {
             if (option == 1) {
                 new ChessGame();
             }
-            ChessView.cleanTerminal();
         } while (option==1);
     }
 

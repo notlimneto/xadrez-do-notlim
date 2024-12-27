@@ -24,11 +24,11 @@ public class ChessGame {
         board = new Board();
 
         int moves = 0;
-        while (moves < 30) {
+        while (true) {
             if (moves % 2 == 0) {
-                whiteMove();
+                if (whiteMove()) break;
             } else {
-                blackMove();
+                if (blackMove()) break;
             }
             moves++;
             ChessView.cleanTerminal();
@@ -36,8 +36,18 @@ public class ChessGame {
         }
     }
 
-    private void whiteMove(){
-        if (BoardUtil.isKingChecked(board, board.getWhiteKing().getSquare(), ColorEnum.WHITE.getValue())) System.out.println("\nRei Branco está em cheque!");
+    private boolean whiteMove(){
+        if (BoardUtil.isKingChecked(board, board.getWhiteKing().getSquare(), ColorEnum.WHITE.getValue())){
+            if (BoardUtil.isOutOfMoves(board, ColorEnum.WHITE.getValue())) {
+                System.out.println("\nVitória das " + BoardView.BLACK_BACKGROUND_WHITE_TEXT + "pretas" + BoardView.R + "!");
+                return true;
+            }
+            else System.out.println("\nRei " + BoardView.WHITE_BACKGROUND_BLACK_TEXT + "Branco" + BoardView.R + " está em cheque!");
+        } else if (BoardUtil.isOutOfMoves(board, ColorEnum.WHITE.getValue())) {
+            System.out.println("\nEmpate por afogamento!");
+            return true;
+        }
+
         System.out.println("\n" + BoardView.WHITE_BACKGROUND_BLACK_TEXT + "Brancas" + BoardView.R + " fazem lance:");
         String move = scanner.nextLine();
         while (!isValidMove(move, ColorEnum.WHITE.getValue())) {
@@ -46,10 +56,21 @@ public class ChessGame {
         }
         makeMove(move);
         BoardUtil.unsetEnPassant(board, ColorEnum.WHITE.getValue());
+        return false;
     }
 
-    private void blackMove(){
-        if (BoardUtil.isKingChecked(board, board.getBlackKing().getSquare(), ColorEnum.BLACK.getValue())) System.out.println("\nRei Preto está em cheque!");
+    private boolean blackMove(){
+        if (BoardUtil.isKingChecked(board, board.getBlackKing().getSquare(), ColorEnum.BLACK.getValue())) {
+            if (BoardUtil.isOutOfMoves(board, ColorEnum.BLACK.getValue())) {
+                System.out.println("\nVitória das " + BoardView.WHITE_BACKGROUND_BLACK_TEXT + "brancas" + BoardView.R + "!");
+                return true;
+            }
+            else System.out.println("\nRei"  + BoardView.BLACK_BACKGROUND_WHITE_TEXT + "Preto" + BoardView.R +  "está em cheque!");
+        } else if (BoardUtil.isOutOfMoves(board, ColorEnum.BLACK.getValue())) {
+            System.out.println("\nEmpate por afogamento!");
+            return true;
+        }
+
         System.out.println("\n" + BoardView.BLACK_BACKGROUND_WHITE_TEXT + "Pretas" + BoardView.R + " fazem lance:");
         String move = scanner.nextLine();
         while (!isValidMove(move, ColorEnum.BLACK.getValue())) {
@@ -58,6 +79,7 @@ public class ChessGame {
         }
         makeMove(move);
         BoardUtil.unsetEnPassant(board, ColorEnum.BLACK.getValue());
+        return false;
     }
 
     private void makeMove(String move) {
@@ -67,7 +89,7 @@ public class ChessGame {
         board.getBoard().get(currentPosition).makeMove(board, currentPosition, nextPosition);
     }
 
-    private boolean isValidMove(String move, char color){
+    public boolean isValidMove(String move, char color){
         if (move.length() != 4) return false;
 
         String currentPosition = move.substring(0, 2);

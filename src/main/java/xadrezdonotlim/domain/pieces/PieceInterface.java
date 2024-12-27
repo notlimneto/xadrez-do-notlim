@@ -9,7 +9,9 @@ public interface PieceInterface {
 
     boolean isMovePossible(Board board, String currentPosition, String nextPosition);
 
-    List<String> getPossibleMoves(Board board, String currentPosition);
+    boolean isMovePossibleConsideringSelfCheck(Board board, String currentPosition, String nextPosition);
+
+    boolean hasMove(Board board);
 
     default void makeMove(Board board, String currentPosition, String nextPosition) {
         var positionMap = board.getBoard();

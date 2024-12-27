@@ -18,17 +18,21 @@ public class Board {
     private King whiteKing;
     private King blackKing;
 
+    private final boolean isOriginalBoard;
+
     public Board() {
+        this.isOriginalBoard = true;
         buildBoard();
         BoardView.updateBoard(this);
     }
 
-    private Board(HashMap<String, PieceInterface> whitePieces, HashMap<String, PieceInterface> blackPieces) {
+    private Board(HashMap<String, PieceInterface> whitePieces, HashMap<String, PieceInterface> blackPieces, boolean isOriginalBoard) {
+        this.isOriginalBoard = false;
         buildCustomBoard(whitePieces, blackPieces);
     }
 
     public Board getBoardCopy(HashMap<String, PieceInterface> whitePieces, HashMap<String, PieceInterface> blackPieces) {
-        return new Board(whitePieces, blackPieces);
+        return new Board(whitePieces, blackPieces, isOriginalBoard);
     }
 
     private void buildBoard() {
@@ -107,9 +111,10 @@ public class Board {
         var piece = pieces.get(position);
         if (pieceCode == 'P') board.put(position, ((Pawn) piece).clone());
         else if (pieceCode == 'R') {
-            board.put(position, ((King) piece).clone());
-            if (piece.getColor() == ColorEnum.WHITE.getValue()) this.whiteKing = (King) piece;
-            else this.blackKing = (King) piece;
+            King king = ((King) piece).clone();
+            board.put(position, king);
+            if (piece.getColor() == ColorEnum.WHITE.getValue()) this.whiteKing = king;
+            else this.blackKing = king;
         } else if (pieceCode == 'D') board.put(position, ((Queen) piece).clone());
         else if (pieceCode == 'T') board.put(position, ((Rook) piece).clone());
         else if (pieceCode == 'B') board.put(position, ((Bishop) piece).clone());

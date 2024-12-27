@@ -5,6 +5,8 @@ import lombok.Setter;
 import xadrezdonotlim.domain.Board;
 import xadrezdonotlim.enumeration.ColorEnum;
 import xadrezdonotlim.enumeration.PositionIdentifiersEnum;
+import xadrezdonotlim.util.BoardUtil;
+import xadrezdonotlim.validation.KingValidation;
 import xadrezdonotlim.validation.PawnValidation;
 
 import java.util.ArrayList;
@@ -34,6 +36,12 @@ public class Pawn implements PieceInterface, Cloneable{
 
     public boolean isMovePossible(Board board, String currentPosition, String nextPosition) {
         return PawnValidation.moveValidation(board, currentPosition, nextPosition, color, hasEnPassant);
+    }
+
+    public boolean isMovePossibleConsideringSelfCheck(Board board, String currentPosition, String nextPosition) {
+        if (!PawnValidation.moveValidation(board, currentPosition, nextPosition, color, hasEnPassant)) return false;
+
+        return !BoardUtil.isMoveCausingSelfCheck(board, currentPosition, nextPosition);
     }
 
     @Override
@@ -88,7 +96,7 @@ public class Pawn implements PieceInterface, Cloneable{
             }
 
             positionMap.put(currentPosition, null);
-            if((color == ColorEnum.WHITE.getValue()) ? nextRow==8 : nextRow==1) {
+            if (board.isOriginalBoard() && ((color == ColorEnum.WHITE.getValue()) ? nextRow==8 : nextRow==1)) {
                 Scanner scanner = new Scanner(System.in);
                 System.out.println("Para qual peça quer promover? T - Torre; C - Cavalo; B - Bispo; D - Dama");
 
@@ -120,18 +128,6 @@ public class Pawn implements PieceInterface, Cloneable{
         }
     }
 
-    public List<String> getPossibleMoves(Board board, String currentPosition) {
-        List<String> possibleMoves = new ArrayList<>();
-
-        String columns = PositionIdentifiersEnum.COLUMNS.getValues();
-
-        String column = currentPosition.substring(0, 1);
-        Integer row = Integer.valueOf(currentPosition.substring(1));
-        var positionMap = board.getBoard();
-
-        return possibleMoves;
-    }
-
     private boolean isMoveEnPassant(Board board, String currentPosition, String nextPosition) {
         String columns = PositionIdentifiersEnum.COLUMNS.getValues();
 
@@ -146,6 +142,38 @@ public class Pawn implements PieceInterface, Cloneable{
         else {
             return board.getBoard().get(nextPosition) == null && indexCurrentColumn.compareTo(indexNextColumn) != 0;
         }
+    }
+
+    public boolean hasMove(Board board) {
+        String columns = PositionIdentifiersEnum.COLUMNS.getValues();
+        String rows = PositionIdentifiersEnum.ROWS.getValues();
+
+        Integer indexOfColumn = columns.indexOf(square.substring(0, 1));
+        Integer indexOfRow = rows.indexOf(square.substring(1));
+
+        boolean isColumnInLeftBound = indexOfColumn - 1 >= 0;
+        boolean isColumnInRightBound = indexOfColumn + 1 < 8;
+
+        boolean isRowInRightBoundByOne = indexOfRow + 1 < 8;
+        boolean isRowInRightBoundByTwo = indexOfRow + 2 < 8;
+
+        List<String> possibleMoves = new ArrayList<>();
+
+        if (isRowInRightBoundByOne) {
+            possibleMoves.add(String.valueOf(columns.charAt(indexOfColumn)) + rows.charAt(indexOfRow + 1));
+            if(isColumnInLeftBound) possibleMoves.add(String.valueOf(columns.charAt(indexOfColumn - 1)) + rows.charAt(indexOfRow + 1));
+            if(isColumnInRightBound) possibleMoves.add(String.valueOf(columns.charAt(indexOfColumn + 1)) + rows.charAt(indexOfRow + 1));
+        }
+
+        if (isRowInRightBoundByTwo) {
+            possibleMoves.add(String.valueOf(columns.charAt(indexOfColumn)) + rows.charAt(indexOfRow + 2));
+        }
+
+        for (String possibleMove : possibleMoves) {
+            if (isMovePossibleConsideringSelfCheck(board, square, possibleMove)) return true;
+        }
+
+        return false;
     }
 
     @Override
