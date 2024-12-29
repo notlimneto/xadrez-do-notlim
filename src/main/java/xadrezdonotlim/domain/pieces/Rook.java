@@ -3,19 +3,17 @@ package xadrezdonotlim.domain.pieces;
 import lombok.Getter;
 import lombok.Setter;
 import xadrezdonotlim.domain.Board;
-import xadrezdonotlim.enumeration.PositionIdentifiersEnum;
 import xadrezdonotlim.util.BoardUtil;
 import xadrezdonotlim.util.MoveUtil;
-import xadrezdonotlim.validation.KingValidation;
 import xadrezdonotlim.validation.RookValidation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 public class Rook implements PieceInterface, Cloneable {
     private final char color;
     private final char pieceCode;
+    private boolean hasMoved;
 
     @Setter
     private String square;
@@ -24,6 +22,7 @@ public class Rook implements PieceInterface, Cloneable {
         this.color = color;
         this.pieceCode = 'T';
         this.square = square;
+        this.hasMoved = false;
     }
 
     public boolean isMovePossible(Board board, String currentPosition, String nextPosition) {
@@ -47,6 +46,20 @@ public class Rook implements PieceInterface, Cloneable {
     }
 
     @Override
+    public void makeMove(Board board, String currentPosition, String nextPosition) {
+        var positionMap = board.getBoard();
+        PieceInterface pieceMoved = positionMap.get(currentPosition);
+
+        positionMap.put(currentPosition, null);
+        updatePieceMaps(board, pieceMoved, currentPosition, nextPosition);
+        positionMap.put(nextPosition, pieceMoved);
+
+        this.hasMoved = true;
+
+        pieceMoved.setSquare(nextPosition);
+    }
+
+    @Override
     public Rook clone() {
         try {
             return (Rook) super.clone();
@@ -54,4 +67,6 @@ public class Rook implements PieceInterface, Cloneable {
             throw new AssertionError();
         }
     }
+
+    public boolean hasMoved() { return hasMoved; }
 }

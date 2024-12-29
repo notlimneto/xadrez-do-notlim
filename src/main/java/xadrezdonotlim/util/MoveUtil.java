@@ -1,5 +1,6 @@
 package xadrezdonotlim.util;
 
+import xadrezdonotlim.enumeration.ColorEnum;
 import xadrezdonotlim.enumeration.PositionIdentifiersEnum;
 
 import java.util.ArrayList;
@@ -60,5 +61,13 @@ public class MoveUtil {
         }
 
         return linearMoves;
+    }
+
+    public static String[] getSquaresBetweeenCastles(String nextPosition, char color) {
+        if (color == ColorEnum.WHITE.getValue()) {
+            return (nextPosition.equals("c1")) ? new String[]{"b1", "c1", "d1"} : new String[]{"f1", "g1"};
+        } else {
+            return (nextPosition.equals("c8")) ? new String[]{"b8", "c8", "d8"} : new String[]{"f8", "g8"};
+        }
     }
 }
